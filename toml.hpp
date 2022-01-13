@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------------------------------------------------
 //
-// toml++ v3.0.0
+// toml++ v3.0.1
 // https://github.com/marzer/tomlplusplus
 // SPDX-License-Identifier: MIT
 //
@@ -810,7 +810,7 @@
 
 #define TOML_LIB_MAJOR 3
 #define TOML_LIB_MINOR 0
-#define TOML_LIB_PATCH 0
+#define TOML_LIB_PATCH 1
 
 #define TOML_LANG_MAJOR 1
 #define TOML_LANG_MINOR 0
@@ -5981,10 +5981,6 @@ TOML_NAMESPACE_START
 
 	  public:
 
-		using const_iterator = const char*;
-
-		using iterator = const_iterator;
-
 		TOML_NODISCARD_CTOR
 		key() noexcept = default;
 
@@ -6183,6 +6179,10 @@ TOML_NAMESPACE_START
 		{
 			return lhs >= rhs.key_;
 		}
+
+		using const_iterator = const char*;
+
+		using iterator = const_iterator;
 
 		TOML_PURE_INLINE_GETTER
 		const_iterator begin() const noexcept
@@ -10412,7 +10412,7 @@ TOML_NAMESPACE_START
 		elems_.push_back(std::move(elem));
 	}
 
-	TOML_API
+	TOML_EXTERNAL_LINKAGE
 	array::vector_iterator array::insert_at(const_vector_iterator pos, impl::node_ptr && elem)
 	{
 		return elems_.insert(pos, std::move(elem));
