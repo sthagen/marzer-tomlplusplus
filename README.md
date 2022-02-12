@@ -4,7 +4,7 @@
 [![C++20](docs/images/badge-C++20.svg)][cpp_compilers]
 [![TOML](docs/images/badge-TOML.svg)][v1.0.0]
 [![MIT license](docs/images/badge-license-MIT.svg)](./LICENSE)
-[![CircleCI](https://img.shields.io/circleci/build/github/marzer/tomlplusplus?label=circle%20ci&logo=circleci&logoColor=white&style=flat-square)](https://circleci.com/gh/marzer/tomlplusplus)
+[![ci](https://github.com/marzer/tomlplusplus/actions/workflows/ci.yaml/badge.svg)](https://github.com/marzer/tomlplusplus/actions/workflows/ci.yaml)
 [![Mentioned in Awesome C++](docs/images/badge-awesome.svg)](https://github.com/fffaraz/awesome-cpp)
 ====
 
@@ -145,7 +145,6 @@ won't need to mess with these at all, but if you do, set them before including t
 
 | Option                            |      Type      | Description                                                                                              | Default                |
 |-----------------------------------|:--------------:|----------------------------------------------------------------------------------------------------------|------------------------|
-| `TOML_API`                        |     define     | API annotation to add to public symbols (e.g. `__declspec(dllexport)` on Windows).                       | undefined              |
 | `TOML_ASSERT(expr)`               | function macro | Sets the assert function used by the library.                                                            | `assert()`             |
 | `TOML_CONFIG_HEADER`              | string literal | Includes the given header file before the rest of the library.                                           | undefined              |
 | `TOML_ENABLE_FORMATTERS`          |     boolean    | Enables the formatters. Set to `0` if you don't need them to improve compile times and binary size.      | `1`                    |
@@ -153,6 +152,10 @@ won't need to mess with these at all, but if you do, set them before including t
 | `TOML_ENABLE_UNRELEASED_FEATURES` |     boolean    | Enables support for [unreleased TOML language features].                                                 | `0`                    |
 | `TOML_ENABLE_WINDOWS_COMPAT`      |     boolean    | Enables support for transparent conversion between wide and narrow strings.                              | `1` on Windows         |
 | `TOML_EXCEPTIONS`                 |     boolean    | Sets whether the library uses exceptions.                                                                | per compiler settings  |
+| `TOML_EXPORTED_CLASS`             |     define     | API export annotation to add to classes.                                                                 | undefined              |
+| `TOML_EXPORTED_MEMBER_FUNCTION`   |     define     | API export annotation to add to non-static class member functions.                                       | undefined              |
+| `TOML_EXPORTED_FREE_FUNCTION`     |     define     | API export annotation to add to free functions.                                                          | undefined              |
+| `TOML_EXPORTED_STATIC_FUNCTION`   |     define     | API export annotation to add to static functions.                                                        | undefined              |
 | `TOML_HEADER_ONLY`                |     boolean    | Disable this to explicitly control where toml++'s implementation is compiled (e.g. as part of a library).| `1`                    |
 | `TOML_IMPLEMENTATION`             |     define     | Define this to enable compilation of the library's implementation when `TOML_HEADER_ONLY` == `0`.        | undefined              |
 | `TOML_OPTIONAL_TYPE`              |    type name   | Overrides the `optional<T>` type used by the library if you need [something better than std::optional].  | undefined              |
@@ -225,7 +228,7 @@ UTF-8 decoding is performed using a state machine based on Bjoern Hoehrmann's '[
 - **[@sneves](https://github.com/sneves)** - Helped fix a number of parser bugs
 - **[@sobczyk](https://github.com/sobczyk)** - Reported some bugs
 - **[@std-any-emplace](https://github.com/std-any-emplace)** - Reported some bugs
-- **[@Tachi107](https://github.com/Tachi107)** - Made some tweaks to meson.build
+- **[@Tachi107](https://github.com/Tachi107)** - Made some tweaks to meson.build, added compile_library build option
 - **[@traversaro](https://github.com/traversaro)** - Added vcpkg support and reported a bunch of bugs
 - **[@whiterabbit963](https://github.com/whiterabbit963)** - Fixed a bug with value_or conversions
 - **[@ximion](https://github.com/ximion)** - Added support for installation with meson

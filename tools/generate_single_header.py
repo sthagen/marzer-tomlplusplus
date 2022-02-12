@@ -198,7 +198,9 @@ def main():
 				r'TOML_ENABLE_UNRELEASED_FEATURES',
 				r'TOML_ENABLE_WINDOWS_COMPAT',
 				r'TOML_EXCEPTIONS',
-				r'TOML_EXTERN_TEMPLATES',
+				r'TOML_EXPORTED_CLASS',
+				r'TOML_EXPORTED_FREE_FUNCTION',
+				r'TOML_EXPORTED_MEMBER_FUNCTION',
 				r'TOML_HEADER_ONLY',
 				r'TOML_LANG_MAJOR',
 				r'TOML_LANG_MINOR',
@@ -215,6 +217,7 @@ def main():
 				r'TOML_SMALL_INT_TYPE',
 				r'TOML_UNDEF_MACROS',
 				r'TOMLPLUSPLUS_H',
+				r'TOML_SHARED_LIB'
 			)
 			set_defines = []
 			for define, currently_set in defines.items():

@@ -20,6 +20,9 @@ TOML_DISABLE_SUGGEST_ATTR_WARNINGS;
 // misc warning false-positives
 #if TOML_MSVC
 #pragma warning(disable : 5031) // #pragma warning(pop): likely mismatch
+#if TOML_SHARED_LIB
+#pragma warning(disable : 4251) // dll exports for std lib types
+#endif
 #elif TOML_CLANG
 #pragma clang diagnostic ignored "-Wheader-hygiene"
 #if TOML_CLANG >= 12
@@ -59,9 +62,7 @@ TOML_DISABLE_SUGGEST_ATTR_WARNINGS;
 #include "impl/std_string.inl"
 #include "impl/print_to_stream.inl"
 #include "impl/node.inl"
-#include "impl/node_view.inl"
 #include "impl/at_path.inl"
-#include "impl/value.inl"
 #include "impl/array.inl"
 #include "impl/table.inl"
 #include "impl/unicode.inl"
@@ -113,8 +114,6 @@ TOML_POP_WARNINGS;
 #undef TOML_ENABLE_WARNINGS
 #undef TOML_EVAL_BOOL_0
 #undef TOML_EVAL_BOOL_1
-#undef TOML_EXTERN
-#undef TOML_EXTERN_NOEXCEPT
 #undef TOML_EXTERNAL_LINKAGE
 #undef TOML_FLAGS_ENUM
 #undef TOML_FLOAT_CHARCONV
