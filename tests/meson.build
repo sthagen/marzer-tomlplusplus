@@ -29,31 +29,9 @@ test_sources = [
 	'windows_compat.cpp'
 ]
 
-test_deps = [tomlplusplus_dep]
-
-fs = import('fs')
-
-catch2_dep = dependency('catch2', required: false)
-if catch2_dep.found()
-	test_deps += catch2_dep
-elif fs.exists('..'/'external'/'Catch2'/'single_include')
-	catch2_dep = declare_dependency(include_directories: '..'/'external'/'Catch2'/'single_include')
-	test_deps += catch2_dep
-else
-	error('Catch2 is missing! You probably need to fetch submodules ("git submodule update --init --depth 1 external/Catch2"')
-endif
-
-has_tl_optional = false
-tl_optional_dep = dependency('tl-optional', required: false)
-if tl_optional_dep.found()
-	test_deps += tl_optional_dep
-	has_tl_optional = true
-elif fs.exists('..'/'external'/'tloptional'/'include')
-	tl_optional_dep = declare_dependency(include_directories: '..'/'external'/'tloptional'/'include')
-	test_deps += tl_optional_dep
-	has_tl_optional = true
-else
-	warning('tl-optional not found, skipping its tests')
+test_deps = [ tomlplusplus_dep ]
+if not get_option('use_vendored_libs')
+	test_deps += dependency('catch2')
 endif
 
 #######################################################################################################################
@@ -153,14 +131,6 @@ foreach cpp20 : cpp20_modes
 					and not get_option('compile_library')
 				)
 
-				# use tl::optional to test that the TOML_OPTIONAL_TYPE config option works as advertised
-				tl_optional = (
-					test_counter % 2 == 1
-					and has_tl_optional
-					and not get_option('compile_library')
-					and exceptions # requires exceptions in its API
-				)
-
 				# use asan in the tests
 				address_sanitizer = (
 					get_option('asan_tests')
@@ -241,9 +211,8 @@ foreach cpp20 : cpp20_modes
 					test_args += '-DUSE_SINGLE_HEADER=1'
 				endif
 
-				if tl_optional
-					test_args += '-DUSE_TARTANLLAMA_OPTIONAL=1'
-					test_name = test_name + '_tlopt'
+				if not get_option('use_vendored_libs')
+					test_args += '-DUSE_VENDORED_LIBS=0'
 				endif
 
 				test_executables += [[

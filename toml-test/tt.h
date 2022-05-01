@@ -15,12 +15,16 @@
 #pragma warning(push, 0)
 #endif
 
-#if __has_include(<json/single_include/nlohmann/json.hpp>)
+#define JSON_HAS_FILESYSTEM				 0
+#define JSON_HAS_EXPERIMENTAL_FILESYSTEM 0
+#if !defined(USE_VENDORED_LIBS) || USE_VENDORED_LIBS
+#include "../vendor/json.hpp"
+#elif __has_include(<json/single_include/nlohmann/json.hpp>)
 #include <json/single_include/nlohmann/json.hpp>
 #elif __has_include(<nlohmann/json.hpp>)
 #include <nlohmann/json.hpp>
 #else
-#error nlohmann/json is missing! You probably need to fetch submodules ("git submodule update --init --depth 1 external/json")
+#error nlohmann/json is missing!
 #endif
 
 #include <string>

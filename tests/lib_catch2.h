@@ -22,12 +22,14 @@
 #pragma warning(disable : 5105)
 #endif
 
-#if __has_include(<Catch2/single_include/catch2/catch.hpp>)
+#if !defined(USE_VENDORED_LIBS) || USE_VENDORED_LIBS
+#include "../vendor/catch.hpp"
+#elif __has_include(<Catch2/single_include/catch2/catch.hpp>)
 #include <Catch2/single_include/catch2/catch.hpp>
 #elif __has_include(<catch2/catch.hpp>)
 #include <catch2/catch.hpp>
 #else
-#error Catch2 is missing! You probably need to fetch submodules ("git submodule update --init --depth 1 external/Catch2")
+#error Catch2 is missing!
 #endif
 
 #ifdef __clang__
