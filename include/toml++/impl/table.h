@@ -4,6 +4,7 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
+#include "forward_declarations.h"
 #include "std_map.h"
 #include "std_initializer_list.h"
 #include "array.h"
@@ -1473,13 +1474,13 @@ TOML_NAMESPACE_START
 						ipos->second = std::move(static_cast<ValueArgs&&>(args)...);
 					else
 					{
-#if TOML_COMPILER_EXCEPTIONS
+#if TOML_COMPILER_HAS_EXCEPTIONS
 						try
 						{
 #endif
 							ipos->second.reset(
 								new impl::wrap_node<unwrapped_type>{ static_cast<ValueArgs&&>(args)... });
-#if TOML_COMPILER_EXCEPTIONS
+#if TOML_COMPILER_HAS_EXCEPTIONS
 						}
 						catch (...)
 						{
@@ -1821,6 +1822,10 @@ TOML_NAMESPACE_START
 		/// \name Node views
 		/// @{
 
+		/// \cond
+		using node::operator[]; // inherit operator[toml::path]
+		/// \endcond
+
 		/// \brief	Gets a node_view for the selected value.
 		///
 		/// \param 	key The key used for the lookup.
@@ -1871,7 +1876,7 @@ TOML_NAMESPACE_START
 		///
 		/// \see toml::node_view
 		TOML_NODISCARD
-		node_view<node> operator[](std::wstring_view key) noexcept
+		node_view<node> operator[](std::wstring_view key)
 		{
 			return node_view<node>{ get(key) };
 		}
@@ -1890,7 +1895,7 @@ TOML_NAMESPACE_START
 		///
 		/// \see toml::node_view
 		TOML_NODISCARD
-		node_view<const node> operator[](std::wstring_view key) const noexcept
+		node_view<const node> operator[](std::wstring_view key) const
 		{
 			return node_view<const node>{ get(key) };
 		}
@@ -1907,7 +1912,7 @@ TOML_NAMESPACE_START
 
 		TOML_PURE_GETTER
 		TOML_EXPORTED_STATIC_FUNCTION
-		static bool equal(const table&, const table&) noexcept;
+		static bool TOML_CALLCONV equal(const table&, const table&) noexcept;
 
 		/// \endcond
 	  public:

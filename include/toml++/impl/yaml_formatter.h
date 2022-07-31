@@ -86,7 +86,7 @@ TOML_NAMESPACE_START
 			: base{ &source, nullptr, constants, { flags, "  "sv } }
 		{}
 
-#if defined(DOXYGEN) || (TOML_ENABLE_PARSER && !TOML_EXCEPTIONS)
+#if TOML_DOXYGEN || (TOML_ENABLE_PARSER && !TOML_EXCEPTIONS)
 
 		/// \brief	Constructs a YAML formatter and binds it to a toml::parse_result.
 		///
@@ -118,7 +118,7 @@ TOML_NAMESPACE_START
 #endif
 
 		/// \brief	Prints the bound TOML object out to the stream as YAML.
-		friend std::ostream& operator<<(std::ostream& lhs, yaml_formatter& rhs)
+		friend std::ostream& TOML_CALLCONV operator<<(std::ostream& lhs, yaml_formatter& rhs)
 		{
 			rhs.attach(lhs);
 			rhs.print();
@@ -127,7 +127,7 @@ TOML_NAMESPACE_START
 		}
 
 		/// \brief	Prints the bound TOML object out to the stream as YAML (rvalue overload).
-		friend std::ostream& operator<<(std::ostream& lhs, yaml_formatter&& rhs)
+		friend std::ostream& TOML_CALLCONV operator<<(std::ostream& lhs, yaml_formatter&& rhs)
 		{
 			return lhs << rhs; // as lvalue
 		}

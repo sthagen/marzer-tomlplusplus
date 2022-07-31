@@ -5,7 +5,7 @@
 #pragma once
 
 #include "preprocessor.h"
-#if defined(DOXYGEN) || (TOML_ENABLE_PARSER && !TOML_EXCEPTIONS)
+#if TOML_DOXYGEN || (TOML_ENABLE_PARSER && !TOML_EXCEPTIONS)
 
 #include "table.h"
 #include "parse_error.h"
@@ -54,15 +54,15 @@ TOML_NAMESPACE_START
 	  private:
 		struct storage_t
 		{
-			static constexpr size_t size_ =
+			static constexpr size_t size =
 				(sizeof(toml::table) < sizeof(parse_error) ? sizeof(parse_error) : sizeof(toml::table));
-			static constexpr size_t align_ =
+			static constexpr size_t align =
 				(alignof(toml::table) < alignof(parse_error) ? alignof(parse_error) : alignof(toml::table));
 
-			alignas(align_) unsigned char bytes[size_];
+			alignas(align) unsigned char bytes[size];
 		};
 
-		mutable storage_t storage_;
+		alignas(storage_t::align) mutable storage_t storage_;
 		bool err_;
 
 		template <typename Type>
@@ -170,6 +170,8 @@ TOML_NAMESPACE_START
 		/// @}
 
 		/// \name Successful parses
+		/// \warning It is undefined behaviour to call these functions when the result respresents a failed parse.
+		/// Check #failed(), #succeeded or #operator bool() to determine the result's state.
 		/// @{
 
 		/// \brief	Returns the internal toml::table.
@@ -220,6 +222,8 @@ TOML_NAMESPACE_START
 		/// @}
 
 		/// \name Failed parses
+		/// \warning It is undefined behaviour to call these functions when the result respresents a successful parse.
+		/// Check #failed(), #succeeded or #operator bool() to determine the result's state.
 		/// @{
 
 		/// \brief	Returns the internal toml::parse_error.
@@ -328,6 +332,86 @@ TOML_NAMESPACE_START
 		/// \name Node views
 		/// @{
 
+		/// \brief Returns a view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \see #toml::node::at_path(std::string_view)
+		TOML_NODISCARD
+		node_view<node> at_path(std::string_view path) noexcept
+		{
+			return err_ ? node_view<node>{} : table().at_path(path);
+		}
+
+		/// \brief Returns a const view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \see #toml::node::at_path(std::string_view)
+		TOML_NODISCARD
+		node_view<const node> at_path(std::string_view path) const noexcept
+		{
+			return err_ ? node_view<const node>{} : table().at_path(path);
+		}
+
+		/// \brief Returns a view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \see #toml::node::at_path(const toml::path&)
+		TOML_NODISCARD
+		node_view<node> at_path(const toml::path& path) noexcept
+		{
+			return err_ ? node_view<node>{} : table().at_path(path);
+		}
+
+		/// \brief Returns a const view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \see #toml::node::at_path(const toml::path&)
+		TOML_NODISCARD
+		node_view<const node> at_path(const toml::path& path) const noexcept
+		{
+			return err_ ? node_view<const node>{} : table().at_path(path);
+		}
+
+#if TOML_ENABLE_WINDOWS_COMPAT
+
+		/// \brief Returns a view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \availability This overload is only available when #TOML_ENABLE_WINDOWS_COMPAT is enabled.
+		///
+		/// \see #toml::node::at_path(std::string_view)
+		TOML_NODISCARD
+		node_view<node> at_path(std::wstring_view path)
+		{
+			return err_ ? node_view<node>{} : table().at_path(path);
+		}
+
+		/// \brief Returns a const view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \availability This overload is only available when #TOML_ENABLE_WINDOWS_COMPAT is enabled.
+		///
+		/// \see #toml::node::at_path(std::string_view)
+		TOML_NODISCARD
+		node_view<const node> at_path(std::wstring_view path) const
+		{
+			return err_ ? node_view<const node>{} : table().at_path(path);
+		}
+
+#endif
+
+		/// \brief Returns a view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \see #toml::node::operator[](const toml::path&)
+		TOML_NODISCARD
+		node_view<node> operator[](const toml::path& path) noexcept
+		{
+			return err_ ? node_view<node>{} : table()[path];
+		}
+
+		/// \brief Returns a const view of the subnode matching a fully-qualified "TOML path".
+		///
+		/// \see #toml::node::operator[](const toml::path&)
+		TOML_NODISCARD
+		node_view<const node> operator[](const toml::path& path) const noexcept
+		{
+			return err_ ? node_view<const node>{} : table()[path];
+		}
+
 		/// \brief	Gets a node_view for the selected key-value pair in the wrapped table.
 		///
 		/// \param 	key The key used for the lookup.
@@ -356,24 +440,6 @@ TOML_NAMESPACE_START
 			return err_ ? node_view<const node>{} : table()[key];
 		}
 
-		/// \brief Returns a view of the subnode matching a fully-qualified "TOML path".
-		///
-		/// \see #toml::node::at_path(std::string_view)
-		TOML_NODISCARD
-		node_view<node> at_path(std::string_view path) noexcept
-		{
-			return err_ ? node_view<node>{} : table().at_path(path);
-		}
-
-		/// \brief Returns a const view of the subnode matching a fully-qualified "TOML path".
-		///
-		/// \see #toml::node::at_path(std::string_view)
-		TOML_NODISCARD
-		node_view<const node> at_path(std::string_view path) const noexcept
-		{
-			return err_ ? node_view<const node>{} : table().at_path(path);
-		}
-
 #if TOML_ENABLE_WINDOWS_COMPAT
 
 		/// \brief	Gets a node_view for the selected key-value pair in the wrapped table.
@@ -387,7 +453,7 @@ TOML_NAMESPACE_START
 		///
 		/// \see toml::node_view
 		TOML_NODISCARD
-		node_view<node> operator[](std::wstring_view key) noexcept
+		node_view<node> operator[](std::wstring_view key)
 		{
 			return err_ ? node_view<node>{} : table()[key];
 		}
@@ -403,31 +469,9 @@ TOML_NAMESPACE_START
 		///
 		/// \see toml::node_view
 		TOML_NODISCARD
-		node_view<const node> operator[](std::wstring_view key) const noexcept
+		node_view<const node> operator[](std::wstring_view key) const
 		{
 			return err_ ? node_view<const node>{} : table()[key];
-		}
-
-		/// \brief Returns a view of the subnode matching a fully-qualified "TOML path".
-		///
-		/// \availability This overload is only available when #TOML_ENABLE_WINDOWS_COMPAT is enabled.
-		///
-		/// \see #toml::node::at_path(std::string_view)
-		TOML_NODISCARD
-		node_view<node> at_path(std::wstring_view path) noexcept
-		{
-			return err_ ? node_view<node>{} : table().at_path(path);
-		}
-
-		/// \brief Returns a const view of the subnode matching a fully-qualified "TOML path".
-		///
-		/// \availability This overload is only available when #TOML_ENABLE_WINDOWS_COMPAT is enabled.
-		///
-		/// \see #toml::node::at_path(std::string_view)
-		TOML_NODISCARD
-		node_view<const node> at_path(std::wstring_view path) const noexcept
-		{
-			return err_ ? node_view<const node>{} : table().at_path(path);
 		}
 
 #endif // TOML_ENABLE_WINDOWS_COMPAT
