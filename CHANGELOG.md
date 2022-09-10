@@ -12,9 +12,20 @@ template:
 #### Removals:
 #### Build system:
 
+<br><br>
+
 -->
 
 ## Unreleased
+
+#### Fixes:
+- fixed null pointer dereference in parser when exceptions are disabled (#169) (@ncaklovic)
+
+<br><br>
+
+
+## v3.2.0
+[Released](https://github.com/marzer/tomlplusplus/releases/tag/v3.2.0) 2022-08-29
 
 #### Fixes:
 - fixed `[dotted.table]` source columns sometimes being off by one (#152) (@vaartis)
@@ -23,7 +34,7 @@ template:
 
 #### Additions:
 - added value type deduction to `emplace()` methods
-- added `toml::path` utility type (#153, #156) (@jonestristand)
+- added `toml::path` utility type (#153, #156, #168) (@jonestristand, @kcsaul)
 - added config option `TOML_CALLCONV`
 - added missing relational operators for `source_position`
 

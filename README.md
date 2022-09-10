@@ -1,4 +1,4 @@
-[![banner](docs/images/banner_small.png)][homepage]  
+[![banner](docs/images/banner.png)][homepage]  
 [![Releases](https://img.shields.io/github/v/release/marzer/tomlplusplus?style=flat-square)](https://github.com/marzer/tomlplusplus/releases)
 [![C++17](docs/images/badge-C++17.svg)][cpp_compilers]
 [![TOML](docs/images/badge-TOML.svg)][v1.0.0]
@@ -104,13 +104,13 @@ You'll find some more code examples in the `examples` directory, and plenty more
 3. `#include <toml++/toml.h>`
 
 ### Conan
-Add `tomlplusplus/3.1.0` to your conanfile.
+Add `tomlplusplus/3.2.0` to your conanfile.
 
 ### DDS
 Add `tomlpp` to your `package.json5`, e.g.:
 ```
 depends: [
-    'tomlpp^3.1.0',
+    'tomlpp^3.2.0',
 ]
 ```
 > ℹ&#xFE0F; _[What is DDS?](https://dds.pizza/)_
@@ -151,7 +151,7 @@ include(FetchContent)
 FetchContent_Declare(
     tomlplusplus
     GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
-    GIT_TAG        v3.1.0
+    GIT_TAG        v3.2.0
 )
 FetchContent_MakeAvailable(tomlplusplus)
 ```
