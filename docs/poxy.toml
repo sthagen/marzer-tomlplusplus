@@ -16,9 +16,10 @@ theme           = 'dark'
 extra_files     = [
     'images/badge-awesome.svg',
     'images/badge-TOML.svg',
-    'images/badge-gitter.svg'
+    'images/badge-gitter.svg',
+    'images/badge-sponsor.svg',
 ]
-html_header     = '<style>#poxy-main-banner, .poxy-main-banner { padding: 2rem; }</style>'
+
 
 
 [warnings]
@@ -55,7 +56,6 @@ paths           = [ 'images' ]
 
 [code_blocks]
 macros          = [ 'TOML_[A-Z0-9_]+?', 'print_value' ]
-string_literals = [ '_toml' ]
 
 
 
@@ -72,7 +72,11 @@ string_literals = [ '_toml' ]
     'badge-awesome.svg',
     'https://github.com/fffaraz/awesome-cpp'
 ]
-'4. Gitter'        = [
+'4. Sponsor'        = [
+    'badge-sponsor.svg',
+    'https://github.com/sponsors/marzer'
+ ]
+'5. Gitter'        = [
     'badge-gitter.svg',
     'https://gitter.im/marzer/tomlplusplus'
  ]
