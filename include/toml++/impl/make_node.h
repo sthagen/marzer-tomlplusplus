@@ -36,7 +36,7 @@ TOML_IMPL_NAMESPACE_START
 			// copy/move ctor
 			if constexpr (std::is_same_v<remove_cvref<T>, value_type>)
 			{
-				out = new value_type{ static_cast<T&&>(val) };
+				out = new value_type{ static_cast<T&&>(val), flags };
 			}
 
 			// creating from raw value
@@ -70,10 +70,10 @@ TOML_IMPL_NAMESPACE_START
 				}
 				else
 					out = new value_type{ static_cast<T&&>(val) };
-			}
 
-			if (flags != preserve_source_value_flags)
-				out->flags(flags);
+				if (flags != preserve_source_value_flags)
+					out->flags(flags);
+			}
 
 			return out;
 		}
