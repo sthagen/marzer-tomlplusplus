@@ -3,7 +3,7 @@
 // See https://github.com/marzer/tomlplusplus/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "tests.h"
+#include "tests.hpp"
 
 TEST_CASE("arrays - moving")
 {
@@ -587,6 +587,8 @@ TEST_CASE("arrays - for_each")
 		CHECK(bools == 1);
 	}
 
+#if !TOML_RETURN_BOOL_FROM_FOR_EACH_BROKEN
+
 	SECTION("early-exit (elem, index)")
 	{
 		int count = 0;
@@ -622,4 +624,6 @@ TEST_CASE("arrays - for_each")
 			});
 		CHECK(count == 4);
 	}
+
+#endif
 }

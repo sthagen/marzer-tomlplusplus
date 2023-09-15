@@ -3,7 +3,7 @@
 // See https://github.com/marzer/tomlplusplus/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "tests.h"
+#include "tests.hpp"
 
 #ifdef _WIN32
 TOML_DISABLE_WARNINGS;
@@ -59,7 +59,7 @@ TEST_CASE("values - construction")
 #endif
 			else
 			{
-				static_assert(impl::dependent_false<init_char_type>, "evaluated unreachable branch");
+				static_assert(impl::always_false<init_char_type>, "evaluated unreachable branch");
 			}
 		}
 		else if constexpr (impl::is_one_of<native_type, int64_t, double, bool>)

@@ -80,7 +80,7 @@ def main():
 			<AdditionalIncludeDirectories>..\tests;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<ExceptionHandling>{exceptions}</ExceptionHandling>
 			<PrecompiledHeader>Use</PrecompiledHeader>
-			<PrecompiledHeaderFile>tests.h</PrecompiledHeaderFile>
+			<PrecompiledHeaderFile>tests.hpp</PrecompiledHeaderFile>
 			<PreprocessorDefinitions>TOML_ENABLE_UNRELEASED_FEATURES={unreleased_features};%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions>LEAK_TESTS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<PreprocessorDefinitions Condition="'%(ExceptionHandling)'=='false'">_HAS_EXCEPTIONS=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -156,11 +156,11 @@ def main():
 		<Natvis Include="..\..\toml++.natvis" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClInclude Include="..\leakproof.h" />
-		<ClInclude Include="..\lib_catch2.h" />
-		<ClInclude Include="..\lib_tloptional.h" />
-		<ClInclude Include="..\settings.h" />
-		<ClInclude Include="..\tests.h" />
+		<ClInclude Include="..\leakproof.hpp" />
+		<ClInclude Include="..\lib_catch2.hpp" />
+		<ClInclude Include="..\lib_tloptional.hpp" />
+		<ClInclude Include="..\settings.hpp" />
+		<ClInclude Include="..\tests.hpp" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\cpp.hint" />

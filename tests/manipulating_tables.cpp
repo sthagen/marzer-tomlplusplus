@@ -3,7 +3,7 @@
 // See https://github.com/marzer/tomlplusplus/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "tests.h"
+#include "tests.hpp"
 
 TEST_CASE("tables - moving")
 {
@@ -652,6 +652,8 @@ TEST_CASE("tables - for_each")
 		CHECK(bools == 1);
 	}
 
+#if !TOML_RETURN_BOOL_FROM_FOR_EACH_BROKEN
+
 	SECTION("early-exit (key, val)")
 	{
 		int count = 0;
@@ -665,4 +667,6 @@ TEST_CASE("tables - for_each")
 		tbl.for_each([&](const auto& /*v*/) noexcept -> bool { return ++count < 3; });
 		CHECK(count == 3);
 	}
+
+#endif
 }
